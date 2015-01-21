@@ -1,0 +1,2 @@
+- Under ‘path1’ in original, and ‘path2’ in new, you will have to replace my user folder (pauloruberto) with your own. 
+- Then simply run using $ python3 RenameFolderImages.py

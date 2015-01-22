@@ -19,7 +19,7 @@ class ReplaceImages():
         
         for file in original_files:
                 if '.png' in file:
-                    self.file_names.append(file)                    
+                    self.file_names.append(file)
         
     def new(self):
         '''(ReplaceImages) -> NoneType
@@ -30,7 +30,7 @@ class ReplaceImages():
         
         os.chdir(path2)
         
-        for file in range(len(new_files)):
+        for file in range(len(self.file_names)):
             if '.png' in new_files[file]:
                 os.rename(new_files[file], self.file_names[file])        
 

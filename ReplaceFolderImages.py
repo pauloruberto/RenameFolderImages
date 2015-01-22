@@ -6,10 +6,12 @@ class ReplaceImages():
         '''
         
         self.file_names = []
+        self.folder2 = ''
          
     def original(self):
         '''(ReplaceImages) -> NoneType
-        '''        
+        '''
+        print('-------------------------------------------------------')
         folder1 = input('What is the folder containing the original images?:')
         path1 = '/Users/pauloruberto/Desktop/' + folder1
         original_files = (os.listdir(path1))
@@ -20,21 +22,35 @@ class ReplaceImages():
         for file in original_files:
                 if '.png' in file:
                     self.file_names.append(file)
+                    
+    def remove_ds(self):
+        '''(ReplaceImages) -> NoneType
+        '''
+        self.folder2 = input('What is the folder containing the new images?:')
+        self.path2 = '/Users/pauloruberto/Desktop/' + self.folder2
+        self.new_files = (os.listdir(self.path2))
+    
+        os.chdir(self.path2)
         
+        for file in range(len(self.new_files)):
+            if 'DS_Store' in self.new_files[file]:
+                os.remove(self.new_files[file])        
+                            
     def new(self):
         '''(ReplaceImages) -> NoneType
         '''
-        folder2 = input('What is the folder of the new images?:')
-        path2 = '/Users/pauloruberto/Desktop/' + folder2
-        new_files = (os.listdir(path2))
         
-        os.chdir(path2)
+        os.chdir(self.path2)
         
-        for file in range(len(self.file_names)):
-            if '.png' in new_files[file]:
-                os.rename(new_files[file], self.file_names[file])        
+        for file in range(len(self.new_files)):
+            if '.png' in self.new_files[file]:
+                os.rename(self.new_files[file], self.file_names[file])  
+                
+        print('-------------------------------------------------------')
+        print('Complete!')
 
 if __name__ == '__main__':
     instance = ReplaceImages()
     instance.original()
+    instance.remove_ds()
     instance.new()

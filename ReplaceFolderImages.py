@@ -52,7 +52,7 @@ class ReplaceImages():
                 os.rename(self.new_files[file], self.file_names[file])  
                 
         print('-------------------------------------------------------')
-        print('Complete!')
+        print('Complete! {} images renamed.'.format(len(self.new_files)))
 
 if __name__ == '__main__':
     instance1 = ReplaceImages()

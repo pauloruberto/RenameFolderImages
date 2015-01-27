@@ -1,5 +1,8 @@
 import os
-class ReplaceImages():
+print('-------------------------------------------------------')
+folder2 = input('What is the folder containing the NEW images?:')
+
+class RemoveDS_Store():
     
     def __init__(self):
         '''(ReplaceImages) -> NoneType
@@ -7,7 +10,26 @@ class ReplaceImages():
         
         self.file_names = []
         self.folder2 = ''
-         
+    
+    def remove_ds(self):
+        '''(ReplaceImages) -> NoneType
+        '''
+    
+        #self.folder2 = input('What is the folder containing the NEW images?:')
+        path2 = '/Users/pauloruberto/Desktop/' + folder2
+        self.new_files = (os.listdir(path2))
+    
+        os.chdir(path2)
+        
+        for file in range(len(self.new_files)):
+            if 'DS_Store' in self.new_files[file]:
+                os.remove(self.new_files[file])
+ 
+class ReplaceImages(RemoveDS_Store):
+    def __init__(self):
+        
+        RemoveDS_Store.__init__(self)
+        
     def original(self):
         '''(ReplaceImages) -> NoneType
         '''
@@ -23,29 +45,15 @@ class ReplaceImages():
                 if '.png' in file:
                     self.file_names.append(file)
                     
-    def remove_ds(self):
-        '''(ReplaceImages) -> NoneType
-        '''
-    
-        self.folder2 = input('What is the folder containing the NEW images?:')
-        self.path2 = '/Users/pauloruberto/Desktop/' + self.folder2
-        self.new_files = (os.listdir(self.path2))
-    
-        os.chdir(self.path2)
-        
-        for file in range(len(self.new_files)):
-            if 'DS_Store' in self.new_files[file]:
-                os.remove(self.new_files[file])        
                             
     def new(self):
         '''(ReplaceImages) -> NoneType
         '''
         
-        self.folder2 = input('What is the folder containing the NEW images?:')
-        self.path2 = '/Users/pauloruberto/Desktop/' + self.folder2
-        self.new_files = (os.listdir(self.path2))        
+        path2 = '/Users/pauloruberto/Desktop/' + folder2
+        self.new_files = (os.listdir(path2))
         
-        os.chdir(self.path2)
+        os.chdir(path2)
         
         for file in range(len(self.new_files)):
             if '.png' in self.new_files[file]:
@@ -55,12 +63,11 @@ class ReplaceImages():
         print('Complete! {} images renamed.'.format(len(self.new_files)))
 
 if __name__ == '__main__':
-    instance1 = ReplaceImages()
-    print('-------------------------------------------------------')
-    print("This is to remove hidden .DS_Store files")
+    
+    instance1 = RemoveDS_Store()
     instance1.remove_ds()
     print('-------------------------------------------------------')
-    print(".DS_Store files removed!")
+    print('Removed hidden .DS_Store file.')
     instance2 = ReplaceImages()
     instance2.original()
     instance2.new()

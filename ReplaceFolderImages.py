@@ -1,6 +1,10 @@
 import os
+import shutil
+
+directory = '/Users/pauloruberto/Desktop/'
 print('-------------------------------------------------------')
-folder2 = input('What is the folder containing the NEW images?:')
+folder = input('What is the folder containing the ORIGINAL images?: ')
+image = input('What is the name of the NEW image? (with extension): ')
 
 class RemoveDS_Store():
     
@@ -9,14 +13,12 @@ class RemoveDS_Store():
         '''
         
         self.file_names = []
-        self.folder2 = ''
     
     def remove_ds(self):
         '''(ReplaceImages) -> NoneType
         '''
     
-        #self.folder2 = input('What is the folder containing the NEW images?:')
-        path2 = '/Users/pauloruberto/Desktop/' + folder2
+        path2 = directory + folder
         self.new_files = (os.listdir(path2))
     
         os.chdir(path2)
@@ -30,44 +32,76 @@ class ReplaceImages(RemoveDS_Store):
         
         RemoveDS_Store.__init__(self)
         
-    def original(self):
-        '''(ReplaceImages) -> NoneType
-        '''
-        print('-------------------------------------------------------')
-        folder1 = input('What is the folder containing the ORIGINAL images?:')
-        path1 = '/Users/pauloruberto/Desktop/' + folder1
-        original_files = (os.listdir(path1))
+    def rename_old_folder(self):
+        
+        original_name = directory + folder
+        new_name = directory + folder + '-ORIGINAL'
+        
+        os.rename(original_name, new_name)
+    
+    
+    def get_original_images(self):
+        
+        path = directory + folder + '-ORIGINAL'
+        
         self.file_names = []
         
-        os.chdir(path1)
+        os.chdir(path)
         
-        for file in original_files:
+        # Iterate of each image, if it is a .png, add it to the list of files
+        for file in (os.listdir(path)):
                 if '.png' in file:
-                    self.file_names.append(file)
-                    
-                            
-    def new(self):
-        '''(ReplaceImages) -> NoneType
-        '''
+                    self.file_names.append(file)        
         
-        path2 = '/Users/pauloruberto/Desktop/' + folder2
-        self.new_files = (os.listdir(path2))
+    def create_new_folder(self):
         
-        os.chdir(path2)
+        new_folder = directory + folder
+        os.makedirs(new_folder)
+    
+    def get_new_images(self):
+        n = 'copy'
+        
+        path_name = directory + folder
+        file_name = directory + image
+        image_name_backup = directory + image
+        
+        for item in self.file_names:
+            # copy the file
+            shutil.copy(file_name, path_name)
+            
+            # rename the image to something else
+            old_name = file_name
+            new_name = file_name + n
+            os.rename(old_name, new_name)
+            
+            # set the file name to the new name
+            file_name = new_name
+    
+        # set the file name back to the original
+        
+        os.rename(file_name, image_name_backup)
+        
+    def rename_images(self):
+        
+        path_name = directory + folder
+        self.new_files = (os.listdir(path_name))
+        
+        os.chdir(path_name)
         
         for file in range(len(self.new_files)):
             if '.png' in self.new_files[file]:
                 os.rename(self.new_files[file], self.file_names[file])  
                 
         print('-------------------------------------------------------')
-        print('Complete! {} images renamed.'.format(len(self.new_files)))
-
-if __name__ == '__main__':
+        print('Complete! {} images have been created & named.'.format(len(self.new_files)))
+        
     
+if __name__ == '__main__':
     instance1 = RemoveDS_Store()
     instance1.remove_ds()
-    print('-------------------------------------------------------')
-    print('Removed hidden .DS_Store file.')
     instance2 = ReplaceImages()
-    instance2.original()
-    instance2.new()
+    instance2.rename_old_folder()
+    instance2.create_new_folder()
+    instance2.get_original_images()
+    instance2.get_new_images()
+    instance2.rename_images()
